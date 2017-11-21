@@ -1,0 +1,49 @@
+{% extends "management/base.html" %}
+{% load staticfiles %}
+{% block title %}Check_Product{% endblock %}
+
+{% block content %}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-10 col-md-offset-1">
+                <div class="col-md-5">
+                    {% if inventory.img_set.all %}
+                        <div id="carousel-generic" class="carousel slide" data-ride="carousel">
+                            <ol class="carousel-indicators">
+                                {% for img in inventory.img_set.all %}
+                                    <li data-target="#carousel-generic" data-slide-to="{{ forloop.counter0 }}"
+                                        {% if forloop.first %}class="active"{% endif %}></li>
+                                {% endfor %}
+                            </ol>
+                            <div class="carousel-inner" role="listbox">
+                                {% for img in inventory.img_set.all %}
+                                    <div {% if forloop.first %}class="item active"{% else %}class="item"{% endif %}>
+                                        <img class="img-rounded" src="{% url 'media' img.img %}">
+                                    </div>
+                                {% endfor %}
+                            </div>
+                            <a class="left carousel-control" href="#carousel-generic" role="button" data-slide="prev">
+                                <span class="glyphicon glyphicon-chevron-left"></span>
+                            </a>
+                            <a class="right carousel-control" href="#carousel-generic" role="button" data-slide="next">
+                                <span class="glyphicon glyphicon-chevron-right"></span>
+                            </a>
+                        </div>
+                    {% else %}
+                        <p class="text-center">No Picture</p>
+                    {% endif %}
+                </div>
+                <div class="col-md-6 col-md-offset-1">
+                    <h2 class="text-center">{{ inventory.name }}</h2>
+                    <br>
+                    <h3>Part Number：{{ inventory.author }}</h3>
+                    <h3>Product Line：{{ inventory.category }}</h3>
+                    <h3>Record Date：{{ inventory.publish_date|date:"Y-m-d" }}</h3>
+                    <h3>Location：{{ inventory.price }}</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

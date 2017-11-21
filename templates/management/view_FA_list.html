@@ -1,0 +1,69 @@
+{% extends "management/base.html" %}
+{% load staticfiles %}
+{% block title %}View_FA_List{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-10 col-md-offset-1">
+                  <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>bugzilla</th>
+                            <th>Field_Failure</th>
+                            <th>Date_of_Received</th>
+                            <th>Part_Description</th>
+                            <th>Part_Number</th>
+                            <th>RMA_number</th>
+                            <th>CT_number</th>
+                            <th>Status</th>
+                            <th>Comment</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for FA in FA_list %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td>{{ FA.bugzilla }}</td>
+                                <td>{{ FA.Field_Failure }}</td>
+                                <td>{{ FA.Date_of_Received|date:"Y-m-d" }}</td>
+                                <td>{{ FA.Part_Description }}</td>
+                                <td>{{ FA.Part_number }}</td>
+                                <td>{{ FA.RMA_number }}</td>
+                                <td>{{ FA.CT_number }}</td>
+                                <td>{{ FA.Status }}</td>
+                                <td>{{ FA.Comment }}</td>
+                            </tr>
+                        {% empty %}
+                            <tr>
+                                <td>No Result</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                    <nav>
+                        <ul class="pager">
+                            {% if FA_list.has_previous %}
+                                <li class="previous"><a
+                                        href="?typ={{ query_bugzilla }}&page={{ FA_list.previous_page_number }}">Previous Page</a>
+                                </li>
+                            {% else %}
+                                <li class="previous disabled"><a href="#">Previous Page</a></li>
+                            {% endif %}
+                            page {{ FA_list.number }} / {{ FA_list.paginator.num_pages }}
+                            {% if FA_list.has_next %}
+                                <li class="next"><a
+                                        href="?typ={{ query_bugzilla }}&page={{ FA_list.next_page_number }}">Next Page</a>
+                                </li>
+                            {% else %}
+                                <li class="next disabled"><a href="#">Next Page</a></li>
+                            {% endif %}
+                        </ul>
+                    </nav>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}
